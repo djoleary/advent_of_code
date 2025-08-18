@@ -2,6 +2,7 @@ package day_01
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -16,7 +17,6 @@ func Solve() {
 	lines := strings.Split(content, "\n")
 	for _, line := range lines {
 		first_num, last_num, err := findNumbers(line)
-
 		if err != nil {
 			continue
 		}
@@ -28,12 +28,11 @@ func Solve() {
 
 	acc := accumulate(numbers)
 
-	println(acc)
+	fmt.Println(acc)
 }
 
 func readFile(filename string) string {
 	content, err := os.ReadFile(filename)
-
 	if err != nil {
 		panic(err)
 	}
@@ -107,7 +106,6 @@ func accumulate(numbers []int) int {
 
 func strToInt(str string) int {
 	num, err := strconv.ParseInt(str, 0, 0)
-
 	if err != nil {
 		panic(err)
 	}

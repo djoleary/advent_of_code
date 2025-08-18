@@ -6,8 +6,9 @@ type direction = N | NE | E | SE | S | SW | W | NW
 let all_directions = [ N; NE; E; SE; S; SW; W; NW ]
 let needle = "XMAS"
 
-(** [calculate_row_offset lines] is the offset used to move between the rows of the concatenated variant of [lines] as though it were a grid.
-    Requires: values of [lines] all have the same length *)
+(** [calculate_row_offset lines] is the offset used to move between the rows of
+    the concatenated variant of [lines] as though it were a grid. Requires:
+    values of [lines] all have the same length *)
 let calculate_row_offset lines =
   match lines with [] -> 0 | h :: _ -> String.length h
 

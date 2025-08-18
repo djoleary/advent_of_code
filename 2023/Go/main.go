@@ -13,6 +13,7 @@ import (
 	day_06_part_01 "github.com/DJOLEARY/Advent_of_Code/2023/Go/internal/day_06/part_01"
 	day_06_part_02 "github.com/DJOLEARY/Advent_of_Code/2023/Go/internal/day_06/part_02"
 	day_07_part_01 "github.com/DJOLEARY/Advent_of_Code/2023/Go/internal/day_07/part_01"
+	_ "github.com/outrigdev/outrig/autoinit"
 )
 
 func main() {

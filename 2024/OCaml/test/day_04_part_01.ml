@@ -36,7 +36,8 @@ let calculate_num_of_matches_tests =
     "is 0 when no matches present"
     >:: test_calculate_num_of_matches 0 "SMMX" 1 { index = 3; character = 'X' };
     "is 1 when only one match present - top to bottom"
-    >:: (*
+    >::
+    (*
       |.|X|.|
       |.|M|.|
       |.|A|.|
@@ -45,7 +46,8 @@ let calculate_num_of_matches_tests =
     test_calculate_num_of_matches 1 ".X..M..A..S." 3
       { index = 1; character = 'X' };
     "is 1 when only one match present - top to bottom edge"
-    >:: (*
+    >::
+    (*
       |X|.|.|
       |M|.|.|
       |A|.|.|
@@ -54,7 +56,8 @@ let calculate_num_of_matches_tests =
     test_calculate_num_of_matches 1 "X..M..A..S.." 3
       { index = 0; character = 'X' };
     "is 1 when only one match present - bottom to top"
-    >:: (*
+    >::
+    (*
       |.|S|.|
       |.|A|.|
       |.|M|.|
@@ -63,17 +66,20 @@ let calculate_num_of_matches_tests =
     test_calculate_num_of_matches 1 ".S..A..M..X." 3
       { index = 10; character = 'X' };
     "is 1 when only one match present - left to right"
-    >:: (*
+    >::
+    (*
       |X|M|A|S|
     *)
     test_calculate_num_of_matches 1 "XMAS" 4 { index = 0; character = 'X' };
     "is 1 when only one match present - right to left"
-    >:: (*
+    >::
+    (*
       |S|A|M|X|
     *)
     test_calculate_num_of_matches 1 "SAMX" 4 { index = 3; character = 'X' };
     "is 1 when only one match present - bottom right to top left"
-    >:: (*
+    >::
+    (*
       |S|.|.|.|
       |.|A|.|.|
       |.|.|M|.|
@@ -82,7 +88,8 @@ let calculate_num_of_matches_tests =
     test_calculate_num_of_matches 1 "S....A....M....X" 4
       { index = 15; character = 'X' };
     "is 1 when only one match present - top left to bottom right"
-    >:: (*
+    >::
+    (*
       |X|.|.|.|
       |.|M|.|.|
       |.|.|A|.|
@@ -91,7 +98,8 @@ let calculate_num_of_matches_tests =
     test_calculate_num_of_matches 1 "X....M....A....S" 4
       { index = 0; character = 'X' };
     "is 1 when only one match present - bottom left to top right"
-    >:: (*
+    >::
+    (*
       |.|.|.|S|
       |.|.|A|.|
       |.|M|.|.|
@@ -100,7 +108,8 @@ let calculate_num_of_matches_tests =
     test_calculate_num_of_matches 1 "...S..A..M..X..." 4
       { index = 12; character = 'X' };
     "is 1 when only one match present - top right to bottom left"
-    >:: (*
+    >::
+    (*
       |.|.|.|X|
       |.|.|M|.|
       |.|A|.|.|
@@ -109,7 +118,8 @@ let calculate_num_of_matches_tests =
     test_calculate_num_of_matches 1 "...X..M..A..S..." 4
       { index = 3; character = 'X' };
     "is 8 when matches present in all possible directions"
-    >:: (*
+    >::
+    (*
             |S|.|.|S|.|.|S|
             |.|A|.|A|.|A|.|
             |.|.|M|M|M|.|.|
