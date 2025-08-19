@@ -1,9 +1,10 @@
 (tests
- (names day_01_part_01
-        day_01_part_02
-        day_02_part_01
-        day_03_part_01
-        day_04_part_01
-        grid)
+ (names
+  day_01_part_01
+  day_01_part_02
+  day_02_part_01
+  day_03_part_01
+  day_04_part_01
+  grid)
  (modes byte exe)
  (libraries AoC_2024 ounit2))
