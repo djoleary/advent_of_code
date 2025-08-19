@@ -10,7 +10,8 @@ let rec count_occurrances_help element acc lst =
 let count_occurrances element lst = count_occurrances_help element 0 lst
 
 let solve left right =
-  List.map (fun x -> x * count_occurrances x right) left |> List.fold_left ( + ) 0
+  List.map (fun x -> x * count_occurrances x right) left
+  |> List.fold_left ( + ) 0
 
 let left line =
   let pos = 0 in
