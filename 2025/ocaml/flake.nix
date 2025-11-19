@@ -30,7 +30,6 @@
 
             odoc # documentation generator
 
-            menhir # parser generator library
             janeStreet.re2 # regular expression library
             fmt # pretty printing library
             cmdliner # command line library
