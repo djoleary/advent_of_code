@@ -1,0 +1,67 @@
+# https://taskfile.dev
+version: "3"
+
+tasks:
+
+  default:
+    desc: Prints this message
+    cmds:
+      - cmd: task --list-all
+
+  docs:
+    desc: Builds documentation using ocamldoc
+    preconditions:
+      - command -v ocamldoc
+    cmds:
+      - cmd: ocamldoc -html -d docs bin/main.ml
+    silent: true
+
+  test:
+    desc: Runs the tests in the 'tests' directory
+    ignore_error: true
+    env:
+      OUNIT_CI: true
+    preconditions:
+      - command -v dune
+    deps:
+      - task: build
+    cmds:
+      - cmd: dune runtest {{.CLI_ARGS}}
+
+  test:watch:
+    desc: Continuously runs the tests in the 'tests' directory
+    ignore_error: true
+    sources:
+      - lib/**/*.ml
+      - test/**/*.ml
+    env:
+      OUNIT_CI: true
+    preconditions:
+      - command -v dune
+    deps:
+      - task: build
+    cmds:
+      - cmd: dune runtest --watch {{.CLI_ARGS}}
+
+  build:
+    desc: Builds the project
+    preconditions:
+      - command -v dune
+    cmds:
+      - cmd: dune build
+
+  build:release:
+    desc: Builds a release version the project
+    preconditions:
+      - command -v dune
+    cmds:
+      - cmd: dune build --release
+
+  run:
+    desc: Runs the project
+    preconditions:
+      - command -v dune
+    deps:
+      - task: build
+    cmds:
+      - cmd: dune exec -- ./bin/main.exe {{.CLI_ARGS}}

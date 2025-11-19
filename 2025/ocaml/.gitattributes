@@ -1,0 +1,7 @@
+# http://git-scm.com/docs/gitattributes#_end_of_line_conversion
+*  text=auto
+.* text eol=lf
+
+flake.lock             linguist-generated
+ocaml_template.install linguist-generated
+ocaml_template.opam    linguist-generated
