@@ -1,11 +1,11 @@
 (lang dune 3.20)
 
-(name ocaml_template)
+(name advent_of_code_2025)
 
 (generate_opam_files true)
 
 (source
- (github djoleary/ocaml_template))
+ (github djoleary/advent_of_code))
 
 (authors "DJ O'Leary <dijitol@proton.me>")
 
@@ -13,14 +13,14 @@
 
 (license Unlicense)
 
-(documentation https://github.com/djoleary/ocaml_template/docs/index.html)
+(documentation https://github.com/djoleary/advent_of_code/blob/main/2025/ocaml/docs/index.html)
 
 (package
- (name ocaml_template)
- (synopsis "A template for OCaml projects")
- (description "A template for OCaml projects using Dune")
+ (name advent_of_code_2025)
+ (synopsis "Advent of Code 2025")
+ (description "Solutions to the puzzles from Advent of Code 2025")
  (depends ocaml (alcotest :with-test))
  (tags
-  ("project template")))
+  ("Advent of Code 2025")))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
