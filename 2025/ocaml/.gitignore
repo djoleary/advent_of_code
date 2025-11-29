@@ -38,5 +38,8 @@ _opam/
 # DirEnv cache
 .direnv/
 
+# Environment variables
+*.env
+
 # Taskfile cache
 .task/

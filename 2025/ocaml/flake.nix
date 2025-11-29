@@ -25,14 +25,20 @@
 
             utop # REPL
 
+            odoc # documentation generator
+
             alcotest # unit test framework
             bisect_ppx # test coverage
-
-            odoc # documentation generator
+            qcheck-core # property-based testing
+            qcheck-alcotest # property-based testing
+            janeStreet.ppx_inline_test # inline test library
+            janeStreet.ppx_expect # inline test library
 
             janeStreet.re2 # regular expression library
             fmt # pretty printing library
             cmdliner # command line library
+            ppx_deriving # derivers
+            logs # logging library
           ];
           sysTools = with pkgs; [
             go-task

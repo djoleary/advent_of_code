@@ -1,0 +1,7 @@
+(tests
+ (names
+   test_example)
+ (libraries
+   application
+   domain
+   alcotest))

@@ -1,4 +1,8 @@
 (executable
- (public_name advent_of_code_2025)
+ (public_name advent_of_code)
  (name main)
- (libraries advent_of_code_2025))
+ (libraries
+   domain
+   application
+   infrastructure
+   presentation))

@@ -9,7 +9,7 @@ tasks:
       - cmd: task --list-all
 
   docs:
-    desc: Builds documentation using ocamldoc
+    desc: Builds documentation
     preconditions:
       - command -v ocamldoc
     cmds:
@@ -17,10 +17,7 @@ tasks:
     silent: true
 
   test:
-    desc: Runs the tests in the 'tests' directory
-    ignore_error: true
-    env:
-      OUNIT_CI: true
+    desc: Runs the tests
     preconditions:
       - command -v dune
     deps:
@@ -29,13 +26,11 @@ tasks:
       - cmd: dune runtest {{.CLI_ARGS}}
 
   test:watch:
-    desc: Continuously runs the tests in the 'tests' directory
+    desc: Continuously runs the tests
     ignore_error: true
     sources:
       - lib/**/*.ml
       - test/**/*.ml
-    env:
-      OUNIT_CI: true
     preconditions:
       - command -v dune
     deps:
@@ -43,12 +38,32 @@ tasks:
     cmds:
       - cmd: dune runtest --watch {{.CLI_ARGS}}
 
+  test:coverage:
+    desc: Runs the tests and reports coverage
+    preconditions:
+      - command -v dune
+      - command -v bisect-ppx-report
+    deps:
+      - task: build
+    cmds:
+      - cmd: rm --recursive --force _coverage
+      - cmd: rm --force _build/default/test/bisect*.coverage
+      - cmd: dune runtest --instrument-with bisect_ppx --force {{.CLI_ARGS}}
+      - cmd: bisect-ppx-report html
+
   build:
     desc: Builds the project
     preconditions:
       - command -v dune
     cmds:
       - cmd: dune build
+
+  build:watch:
+    desc: Builds the project when files change
+    preconditions:
+      - command -v dune
+    cmds:
+      - cmd: dune build --watch {{.CLI_ARGS}}
 
   build:release:
     desc: Builds a release version the project
@@ -65,3 +80,16 @@ tasks:
       - task: build
     cmds:
       - cmd: dune exec -- ./bin/main.exe {{.CLI_ARGS}}
+
+  repl:
+    desc: Opens a REPL for the project
+    interactive: true
+    preconditions:
+      - command -v dune
+      - command -v utop
+    cmds:
+      - cmd: dune utop
+
+  git:hooks:
+    desc: sets up the githooks for the project
+    cmd: git config core.hooksPath .githooks

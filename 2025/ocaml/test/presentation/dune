@@ -1,0 +1,11 @@
+(tests
+ (names
+   test_example)
+ (libraries
+   application
+   domain
+   infrastructure
+   presentation
+   alcotest
+   qcheck-core
+   qcheck-alcotest))
