@@ -1,13 +1,16 @@
 # https://taskfile.dev
-
 version: "3"
+
 dotenv:
   - .env
+
 tasks:
+
   default:
     desc: Prints this message
     cmds:
       - cmd: task --list-all
+
   day:input:
     desc: Creates the files needed to solve a day of Advent of Code
     requires:
