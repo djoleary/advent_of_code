@@ -11,7 +11,7 @@ let day_arg =
 let day_t = Cmdliner.Term.(const run_day $ day_arg)
 
 let cmd =
-  let info = Cmdliner.Cmd.info "aoc" ~version:"%%VERSION%%" in
+  let info = Cmdliner.Cmd.info "aoc" ~version:"0.1.0" in
   Cmdliner.Cmd.v info day_t
 
 let run () = Cmdliner.Cmd.eval' cmd
