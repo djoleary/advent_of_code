@@ -1,10 +1,10 @@
 let run_day = function
   | 1 ->
-      let content =
-        Infrastructure.File_reader.read_file "../_input/day_01.txt"
-      in
-      let answer = Application.D01p01.solve content () in
-      Logs.app (fun m -> m "%d" answer) ;
+      let content = Infrastructure.File.read "../_input/day_01.txt" in
+      let answerP1 = Application.D01p01.solve content () in
+      Logs.app (fun m -> m "D1P1=%d" answerP1) ;
+      let answerP2 = Application.D01p02.solve content () in
+      Logs.app (fun m -> m "D1P2=%d" answerP2) ;
       0
   | _ ->
       failwith "day not implemented"
