@@ -1,4 +1,4 @@
-open Domain.Day_1
+open Domain.D01p01
 
 let rec input_to_lines input =
   let lines =
