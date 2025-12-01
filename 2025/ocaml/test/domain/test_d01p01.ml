@@ -20,7 +20,7 @@ let test_turn_right_100 () =
 
 let () =
   let open Alcotest in
-  run "Day_1"
+  run "D01p01"
     [ ("initial-state", [test_case "starting state" `Quick test_start])
     ; ( "turning-dial"
       , [ test_case "turning left one step" `Quick test_turn_left_one

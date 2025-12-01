@@ -16,6 +16,6 @@ let test_full_given_example () =
 
 let () =
   let open Alcotest in
-  run "Day_1"
+  run "D01p01"
     [ ( "given-example"
       , [test_case "full given example" `Quick test_full_given_example] ) ]
