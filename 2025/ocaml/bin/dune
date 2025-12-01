@@ -5,4 +5,6 @@
    domain
    application
    infrastructure
-   presentation))
+   presentation
+   logs
+   logs.fmt))

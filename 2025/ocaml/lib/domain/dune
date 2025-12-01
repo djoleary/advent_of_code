@@ -1,6 +1,9 @@
 (library
   (name domain)
   (inline_tests)
+  (libraries
+    fmt
+    logs)
   (preprocess
     (pps
       ppx_deriving.show
