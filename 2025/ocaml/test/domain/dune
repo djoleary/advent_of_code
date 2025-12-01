@@ -1,6 +1,7 @@
 (tests
  (names
-   test_d01p01)
+   test_d01p01
+   test_d01p02)
  (libraries
    domain
    alcotest))
