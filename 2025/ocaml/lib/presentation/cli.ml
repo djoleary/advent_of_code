@@ -1,17 +1,9 @@
-let day_1_example = {|L68
-L30
-R48
-L5
-R60
-L55
-L1
-L99
-R14
-L82|}
-
 let run_day = function
   | 1 ->
-      let answer = Application.Day_1.solve day_1_example () in
+      let content =
+        Infrastructure.File_reader.read_file "../_input/day_01.txt"
+      in
+      let answer = Application.D01p01.solve content () in
       Logs.app (fun m -> m "%d" answer) ;
       0
   | _ ->
