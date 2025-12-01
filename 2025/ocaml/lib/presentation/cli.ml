@@ -1,15 +1,17 @@
-open Cmdliner
-open Cmdliner.Term.Syntax
+let run_day = function
+  | 1 ->
+      Application.Day_1.run ()
+  | _ ->
+      failwith "day not implemented"
 
-let logger () =
-  let env = Cmd.Env.info "LOG_LEVEL" in
-  let+ level = Infrastructure.Logger.CLI_Logger.parse_level ~env
-  and+ style_renderer = Fmt_cli.style_renderer () in
-  Infrastructure.Logger.CLI_Logger.configure_logger ~level ;
-  Fmt_tty.setup_std_outputs ?style_renderer () ;
-  let result_code = 0 in
-  result_code
+let day_arg =
+  let doc = "Day to run (1-12)." in
+  Cmdliner.Arg.(value & pos 0 int 1 & info [] ~docv:"DAY" ~doc)
 
-let cmd = Cmd.v (Cmd.info "tool") @@ logger ()
+let day_t = Cmdliner.Term.(const run_day $ day_arg)
 
-let run () = Cmd.eval' cmd
+let cmd =
+  let info = Cmdliner.Cmd.info "aoc" ~version:"%%VERSION%%" in
+  Cmdliner.Cmd.v info day_t
+
+let run () = Cmdliner.Cmd.eval' cmd
