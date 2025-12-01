@@ -1,6 +1,19 @@
+let day_1_example = {|L68
+L30
+R48
+L5
+R60
+L55
+L1
+L99
+R14
+L82|}
+
 let run_day = function
   | 1 ->
-      Application.Day_1.run ()
+      let answer = Application.Day_1.solve day_1_example () in
+      Logs.app (fun m -> m "%d" answer) ;
+      0
   | _ ->
       failwith "day not implemented"
 
