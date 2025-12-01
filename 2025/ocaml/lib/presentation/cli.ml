@@ -5,7 +5,7 @@ let run_day = function
       failwith "day not implemented"
 
 let day_arg =
-  let doc = "Day to run (1-12)." in
+  let doc = "Day to run. MUST be in range of 1-12." in
   Cmdliner.Arg.(value & pos 0 int 1 & info [] ~docv:"DAY" ~doc)
 
 let day_t = Cmdliner.Term.(const run_day $ day_arg)
