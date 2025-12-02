@@ -10,7 +10,7 @@ let run_day = function
       run_solver "D01P02" Application.D01p02.solve filepath ;
       0
   | 2 ->
-      let filepath = "../_input/day_01.txt" in
+      let filepath = "../_input/day_02.txt" in
       run_solver "D02P01" Application.D02p01.solve filepath ;
       0
   | _ ->
