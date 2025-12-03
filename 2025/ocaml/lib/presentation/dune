@@ -5,7 +5,8 @@
     domain
     infrastructure
     cmdliner
-    fmt.cli)
+    fmt.cli
+    fmt.tty)
   (inline_tests)
   (preprocess
     (pps

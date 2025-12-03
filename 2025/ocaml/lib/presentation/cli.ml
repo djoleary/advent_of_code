@@ -1,9 +1,11 @@
+(* Business logic behind CLI *)
+
 let run_solver name solver filepath =
   let content = Infrastructure.File.read filepath in
   let answer = solver content () in
   Logs.app (fun m -> m "%s=%d" name answer)
 
-let run_day = function
+let run_day _ = function
   | 1 ->
       let filepath = "../_input/day_01.txt" in
       run_solver "D01P01" Application.D01p01.solve filepath ;
@@ -17,14 +19,22 @@ let run_day = function
   | _ ->
       failwith "day not implemented"
 
+(* Command line interface *)
+
+open Cmdliner
+
+let setup_log style_renderer = Fmt_tty.setup_std_outputs ?style_renderer ()
+
+let setup_log_t = Term.(const setup_log $ Fmt_cli.style_renderer ())
+
 let day_arg =
   let doc = "Day to run. MUST be in range of 1-12." in
-  Cmdliner.Arg.(value & pos 0 int 1 & info [] ~docv:"DAY" ~doc)
+  Arg.(value & pos 0 int 1 & info [] ~docv:"DAY" ~doc)
 
-let day_t = Cmdliner.Term.(const run_day $ day_arg)
+let day_t = Term.(const run_day $ setup_log_t $ day_arg)
 
 let cmd =
-  let info = Cmdliner.Cmd.info "aoc" ~version:"0.1.0" in
-  Cmdliner.Cmd.v info day_t
+  let info = Cmd.info "aoc" ~version:"0.1.0" in
+  Cmd.v info day_t
 
-let run () = Cmdliner.Cmd.eval' cmd
+let run () = Cmd.eval' cmd
