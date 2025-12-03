@@ -19,15 +19,10 @@ let collect_all = List.concat_map (fun range -> Range.collect range)
 
 let pp_collection = List.iter (fun c -> Logs.debug (fun m -> m "%s" (ID.pp c)))
 
-(** [rules] is a list of rules that [ID]s must pass to be considered invalid. *)
-let rules =
-  [ (fun id -> String.length (ID.to_string id) mod 2 = 0)
-  ; (fun id ->
-      let id' = ID.to_string id in
-      let id_len = String.length id' in
-      let left = String.sub id' 0 (id_len / 2) in
-      let right = String.sub id' (id_len / 2) (id_len / 2) in
-      String.equal left right ) ]
+(** [rules] is a list of rules that denotes any ID returning true from ANY as invalid. *)
+let rules = [
+  (** a subset of the digits of the whole number up to len/2 is equal to segments of equal length of the remaining string *)
+]
 
 (** [is_invalid id] is [true] for an [id] that passes all of the rules and is considered invalid. *)
 let is_invalid = ID.validate rules

@@ -4,7 +4,7 @@ module ID = struct
 
   let create num = num
 
-  let validate rules id = List.fold_left (fun acc r -> acc && r id) true rules
+  let validate rules id = List.fold_left (fun acc r -> acc || r id) false rules
 
   let incr = ( + ) 1
 
