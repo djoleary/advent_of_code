@@ -5,14 +5,8 @@ module ID : sig
   val create : int -> t
   (** [create num] is an ID [t] *)
 
-  val validate : (t -> bool) list -> t -> bool
-  (** [validate rules id] is [true] if the [id] passes all rule checks *)
-
   val incr : t -> t
   (** [incr id] is the next [id] in the sequence *)
-
-  val to_int : t -> int
-  (** [to_int id] is an integer representation of [id] *)
 
   val to_string : t -> string
   (** [to_string id] is an string representation of [id] *)
