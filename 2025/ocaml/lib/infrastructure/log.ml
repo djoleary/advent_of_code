@@ -1,25 +1,15 @@
-type level = App | Err | Warning | Info | Debug
+module LogsAdapter = struct
+  type 'a t = ('a, unit) Logs.msgf
 
-let log = function
-  | App ->
-      Logs.app
-  | Err ->
-      Logs.err
-  | Warning ->
-      Logs.warn
-  | Info ->
-      Logs.info
-  | Debug ->
-      Logs.debug
+  let app msgf = Logs.app msgf
 
-(** [pp_passthrough pp x] is [x] with the side-effects
-    caused by calling [pp] on [x]. *)
-let pp_passthrough pp x = pp x ; x
+  let err msgf = Logs.err msgf
 
-(** [pp_list lvl msg lst] prints all elements of [lst] with the
-    message [msg] at the level [lvl] *)
-let pp_list lvl msg = List.iter (fun elmt -> log lvl (fun m -> m msg elmt))
+  let warn msgf = Logs.warn msgf
 
-(** [pp_sequence lvl msg seq] prints all elements of [seq] with the
-    message [msg] at the level [lvl] *)
-let pp_sequence lvl msg = Seq.iter (fun elmt -> log lvl (fun m -> m msg elmt))
+  let info msgf = Logs.info msgf
+
+  let debug msgf = Logs.debug msgf
+end
+
+module Logger = Application.Logger.Make (LogsAdapter)
