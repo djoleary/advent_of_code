@@ -3,7 +3,7 @@
 let run_solver name solver filepath =
   let content = Infrastructure.File.read filepath in
   let answer = solver content () in
-  Logs.app (fun m -> m "%s=%d" name answer)
+  Logs.app (fun m -> m "[%s] ANSWER=%d" name answer)
 
 let run_day _ = function
   | 1 ->
@@ -19,6 +19,10 @@ let run_day _ = function
   | 3 ->
       let filepath = "../_input/day_03.txt" in
       run_solver "D03P01" Application.D03p01.solve filepath ;
+      0
+  | 4 ->
+      let filepath = "../_input/day_04.txt" in
+      run_solver "D04P01" Application.D04p01.solve filepath ;
       0
   | _ ->
       failwith "day not implemented"
