@@ -15,6 +15,40 @@
    5. Cast to int
 
    Sum the result of each line
+
+   Tried: 17024 (hint: too low) - original
+   Tried: 17061 (hint: too low) - fixed second digit promotion - "343411" would give 41 instead of 44
+   Tried: 17081 (no hint given) - fixed second last digit promotion - "789" would give 79 insted of 89
+   Tried: 17091 (no hint given) - no change but found diff of 10 in failing test case
+   Tried: 17090 (no hint given) - no change but realised failing test case actually had a diff of 9 not 10 (have 56, want 65)
+   Tried: 17099 (no hint given) - no change but found additional failing test case (have 67, want 76)
+
+   Upper bound: 200 * 99 = 19800
  *)
 
-let solve _ () = failwith "not started"
+open Domain.D03p01
+
+let to_lines s =
+  s |> String.split_on_char '\n' |> List.map String.trim
+  |> List.filter (fun l -> l <> "")
+
+let solve input () =
+  input |> to_lines |> List.to_seq
+  |> Seq.map BatteryBank.of_string
+  |> Seq.mapi (fun idx bb ->
+      let joltage = BatteryBank.highest_joltage bb in
+      Logs.debug (fun m ->
+          m "%d line=%s highest_joltage=%d" (idx + 1) (BatteryBank.pp bb)
+            joltage ) ;
+      joltage )
+  |> Seq.fold_left ( + ) 0
+
+let print_occurring_digits input () =
+  input |> to_lines |> List.to_seq
+  |> Seq.map BatteryBank.of_string
+  |> Seq.map BatteryBank.to_list
+  |> Seq.map (List.sort_uniq Battery.compare)
+  |> Seq.map BatteryBank.of_list
+  |> Seq.iteri (fun idx bb ->
+      Logs.debug (fun m -> m "%d %s" (idx + 1) (BatteryBank.pp bb)) ) ;
+  -1
