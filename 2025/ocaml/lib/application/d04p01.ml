@@ -26,7 +26,13 @@ let input_to_matrix input =
 (** [pp_matrix matrix] is the [input] that was used to create the [matrix]
     via [input_to_matrix input]. *)
 let pp_matrix matrix =
-  matrix
+  let row_count = Array.length matrix in
+  let column_count = Array.length matrix.(0) in
+  let matrix' = Array.make_matrix row_count column_count "" in
+  Array.iteri
+    (fun x row -> Array.iteri (fun y c -> matrix'.(y).(x) <- c) row)
+    matrix ;
+  matrix'
   |> Array.map @@ Array.fold_left (fun acc c -> acc ^ c) ""
   |> Array.fold_left
        (fun acc line -> if acc = "" then line else acc ^ "\n" ^ line)
