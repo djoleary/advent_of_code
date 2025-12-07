@@ -18,8 +18,8 @@ let input_to_matrix input =
   in
   let matrix = Array.make_matrix column_count row_count "" in
   List.iteri
-    (fun x line ->
-      String.iteri (fun y char -> matrix.(x).(y) <- Char.escaped char) line )
+    (fun y line ->
+      String.iteri (fun x char -> matrix.(x).(y) <- Char.escaped char) line )
     lines ;
   matrix
 
@@ -37,3 +37,38 @@ let solve input () =
   let matrix = input |> input_to_matrix in
   Logs.debug (fun m -> m "%s" @@ pp_matrix matrix) ;
   0
+
+let%expect_test "direct access of the matrix is in form matrix.(x).(y)" =
+  let example =
+    {|..@@.@@@@.
+@@@.@.@.@@
+@@@@@.@.@@
+@.@@@@..@.
+@@.@@@@.@@
+.@@@@@@@.@
+.@.@.@.@@@
+@.@@@.@@@@
+.@@@@@@@@.
+@.@.@@@.@.|}
+  in
+  let matrix = input_to_matrix example in
+  print_string matrix.(0).(0) ;
+  [%expect "."] ;
+  print_string matrix.(1).(0) ;
+  [%expect "."] ;
+  print_string matrix.(2).(0) ;
+  [%expect "@"] ;
+  print_string matrix.(3).(0) ;
+  [%expect "@"] ;
+  print_string matrix.(4).(0) ;
+  [%expect "."] ;
+  print_string matrix.(5).(0) ;
+  [%expect "@"] ;
+  print_string matrix.(6).(0) ;
+  [%expect "@"] ;
+  print_string matrix.(7).(0) ;
+  [%expect "@"] ;
+  print_string matrix.(8).(0) ;
+  [%expect "@"] ;
+  print_string matrix.(9).(0) ;
+  [%expect "."]
