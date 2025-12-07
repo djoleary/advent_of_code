@@ -1,7 +1,8 @@
 (tests
  (names
    test_d01p01
-   test_d01p02)
+   test_d01p02
+   test_d04p01)
  (libraries
    application
    domain
