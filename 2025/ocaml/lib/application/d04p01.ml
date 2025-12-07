@@ -23,20 +23,46 @@ let input_to_matrix input =
     lines ;
   matrix
 
+(** [pp_matrix matrix] is the [input] that was used to create the [matrix]
+    via [input_to_matrix input]. *)
 let pp_matrix matrix =
-  "[\n"
-  ^ ( matrix
-    |> Array.map @@ Array.fold_left (fun acc c -> acc ^ c) ""
-    |> Array.fold_left
-         (fun acc line ->
-           if acc = "" then "  [" ^ line ^ "]" else acc ^ "\n  [" ^ line ^ "]" )
-         "" )
-  ^ "\n]"
+  matrix
+  |> Array.map @@ Array.fold_left (fun acc c -> acc ^ c) ""
+  |> Array.fold_left
+       (fun acc line -> if acc = "" then line else acc ^ "\n" ^ line)
+       ""
 
 let solve input () =
   let matrix = input |> input_to_matrix in
   Logs.debug (fun m -> m "%s" @@ pp_matrix matrix) ;
   0
+
+let%expect_test "matrix created from input is pretty-printed as the same matrix"
+    =
+  let example =
+    {|..@@.@@@@.
+@@@.@.@.@@
+@@@@@.@.@@
+@.@@@@..@.
+@@.@@@@.@@
+.@@@@@@@.@
+.@.@.@.@@@
+@.@@@.@@@@
+.@@@@@@@@.
+@.@.@@@.@.|}
+  in
+  print_string @@ pp_matrix @@ input_to_matrix example ;
+  [%expect
+    {|..@@.@@@@.
+@@@.@.@.@@
+@@@@@.@.@@
+@.@@@@..@.
+@@.@@@@.@@
+.@@@@@@@.@
+.@.@.@.@@@
+@.@@@.@@@@
+.@@@@@@@@.
+@.@.@@@.@.|}]
 
 let%expect_test "direct access of the matrix is in form matrix.(x).(y)" =
   let example =
