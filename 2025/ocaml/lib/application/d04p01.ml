@@ -34,7 +34,7 @@ let pp_matrix matrix =
 
 let solve input () =
   let matrix = input |> input_to_matrix in
-  Logs.debug (fun m -> m "%s" @@ pp_matrix matrix) ;
+  Logs.debug (fun m -> m "\n%s" @@ pp_matrix matrix) ;
   0
 
 let%expect_test "matrix created from input is pretty-printed as the same matrix"
