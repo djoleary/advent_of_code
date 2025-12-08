@@ -6,13 +6,23 @@ module M : sig
       where each element in the array is initialized to [initial]. *)
 
   val of_list : 'a list list -> 'a t
-  (** *)
+  (** [of_list lst] is a 2D array where every element in the list is an element. *)
 
   val of_string : string -> string t
   (** [of_string str] is a 2D array where every character is an element. *)
 
   val get : 'a t -> int -> int -> 'a
-  (** [get matrix x y] is an alias for [matrix.(y).(x)] *)
+  (** [get matrix x y] is an alias for [matrix.(y).(x)].
+      Requires: [x] and [y] are positive integers or 0. *)
+
+  val set : 'a t -> int -> int -> 'a -> unit
+  (** [set matrix x y v] is an alias for [matrix.(y).(x) <- v].
+      Requires: [x] and [y] are positive integers or 0. *)
+
+  val get_valid_neighbours : 'a t -> int -> int -> (int * int) list
+  (** [get_valid_neighbours matrix x y] is a list of pairs in the format
+      (x * y) that represent the valid surrounding positions of [matrix.(y).(x)].
+      Requires: [x] and [y] are positive integers or 0. *)
 
   val pp : ('a -> string) -> 'a t -> string
   (** [pp matrix string_of_elt] is the string representation of the [matrix]
@@ -39,6 +49,27 @@ end = struct
     of_list char_lst
 
   let get matrix x y = matrix.(y).(x)
+
+  let set matrix x y v = matrix.(y).(x) <- v
+
+  let get_valid_neighbours matrix x y =
+    let potential_neighbours =
+      [ (x - 1, y - 1)
+      ; (x, y - 1)
+      ; (x + 1, y - 1)
+      ; (x - 1, y)
+      ; (x + 1, y)
+      ; (x - 1, y + 1)
+      ; (x, y + 1)
+      ; (x + 1, y + 1) ]
+    in
+    let min_x = 0 in
+    let max_x = Array.length matrix.(y) - 1 in
+    let min_y = 0 in
+    let max_y = Array.length matrix - 1 in
+    List.filter
+      (fun (x, y) -> min_x <= x && x <= max_x && min_y <= y && y <= max_y)
+      potential_neighbours
 
   let pp string_of_elt matrix =
     Array.fold_left
