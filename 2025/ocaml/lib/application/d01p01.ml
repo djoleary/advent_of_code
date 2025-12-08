@@ -1,5 +1,7 @@
 open Domain.D01p01
 
+let err_empty_input = "input is empty"
+
 let rec input_to_lines input =
   let lines =
     String.split_on_char '\n' input |> List.filter (fun l -> l <> "")
@@ -42,8 +44,10 @@ let rec turn_aux count current = function
 let turn current = turn_aux 0 current
 
 let solve input () =
-  let lines = input_to_lines input in
-  let turns = lines_to_turns lines in
-  let start = Dial.start in
-  let answer = turn start turns in
-  answer
+  if input = "" then Error err_empty_input
+  else
+    let lines = input_to_lines input in
+    let turns = lines_to_turns lines in
+    let start = Dial.start in
+    let answer = turn start turns in
+    Ok answer

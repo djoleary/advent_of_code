@@ -1,5 +1,9 @@
 open Domain.D02p02
 
+(* Errors *)
+
+let err_empty_input = "input is empty"
+
 (* Logging *)
 
 (** [passthrough_with_logs logger lst] is [lst] with the side-effects caused by calling [logger] on [lst]. *)
@@ -67,11 +71,16 @@ let is_invalid id =
   List.length repeating_patterns > 0
 
 let solve input () =
-  input |> input_to_lines |> List.to_seq
-  |> passthrough_with_logs pp_lines
-  |> lines_to_ranges
-  |> passthrough_with_logs pp_ranges
-  |> collect_all
-  |> passthrough_with_logs pp_collection
-  |> Seq.map ID.to_string |> Seq.filter is_invalid
-  |> Seq.fold_left (fun acc id -> acc + int_of_string id) 0
+  if input = "" then Error err_empty_input
+  else
+    let answer =
+      input |> input_to_lines |> List.to_seq
+      |> passthrough_with_logs pp_lines
+      |> lines_to_ranges
+      |> passthrough_with_logs pp_ranges
+      |> collect_all
+      |> passthrough_with_logs pp_collection
+      |> Seq.map ID.to_string |> Seq.filter is_invalid
+      |> Seq.fold_left (fun acc id -> acc + int_of_string id) 0
+    in
+    Ok answer

@@ -1,5 +1,7 @@
 open Domain.D02p01
 
+let err_empty_input = "input is empty"
+
 (** [input_to_lines input] is a list of strings that have been split on ','.
     Example: [input_to_lines "12-34,56-78,90-100"] becomes the list \[ "12-34"; "56-78"; "90-100" \].
     Requires: [input] to be a string in the format "12-34,56-78,90-100". *)
@@ -37,11 +39,16 @@ let is_invalid = ID.validate rules
 let passthrough_with_logs logger lst = logger lst ; lst
 
 let solve input () =
-  input |> input_to_lines |> List.to_seq
-  |> passthrough_with_logs pp_lines
-  |> lines_to_ranges
-  |> passthrough_with_logs pp_ranges
-  |> collect_all
-  |> passthrough_with_logs pp_collection
-  |> Seq.filter is_invalid
-  |> Seq.fold_left (fun acc id -> acc + ID.to_int id) 0
+  if input = "" then Error err_empty_input
+  else
+    let answer =
+      input |> input_to_lines |> List.to_seq
+      |> passthrough_with_logs pp_lines
+      |> lines_to_ranges
+      |> passthrough_with_logs pp_ranges
+      |> collect_all
+      |> passthrough_with_logs pp_collection
+      |> Seq.filter is_invalid
+      |> Seq.fold_left (fun acc id -> acc + ID.to_int id) 0
+    in
+    Ok answer

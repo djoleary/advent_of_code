@@ -2,8 +2,11 @@
 
 let run_solver name solver filepath =
   let content = Infrastructure.File.read filepath in
-  let answer = solver content () in
-  Logs.app (fun m -> m "[%s] ANSWER=%d" name answer)
+  match solver content () with
+  | Error msg ->
+      Logs.app (fun m -> m "[%s] Err=%s" name msg)
+  | Ok answer ->
+      Logs.app (fun m -> m "[%s] ANSWER=%d" name answer)
 
 let run_day _ = function
   | 1 ->

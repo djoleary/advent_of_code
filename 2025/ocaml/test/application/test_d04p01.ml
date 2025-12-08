@@ -14,7 +14,7 @@ let example =
 
 let test_input_to_matrix have want () =
   Alcotest.(check int) "number of rolls of paper that are accessible" want
-  @@ solve have ()
+  @@ match solve have () with Error _ -> 0 | Ok ans -> ans
 
 let () =
   let open Alcotest in

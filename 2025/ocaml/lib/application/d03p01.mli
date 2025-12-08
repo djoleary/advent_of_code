@@ -1,6 +1,6 @@
-val solve : string -> unit -> int
+val solve : string -> unit -> (int, string) result
 (** [solve input ()] is the solution for the first part of the third day of advent of code 2025 for [input].
-    The solution for an empty input is 0.
+    The solution for an empty input is [Error msg].
     Requires: [input] to be a string. *)
 
 val print_occurring_digits : string -> unit -> int

@@ -12,7 +12,9 @@ R14
 L82|}
 
 let test_full_given_example () =
-  Alcotest.(check int) "full given example" 3 (solve example_data ())
+  Alcotest.(check int)
+    "full given example" 3
+    (match solve example_data () with Error _ -> 0 | Ok ans -> ans)
 
 let () =
   let open Alcotest in
