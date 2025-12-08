@@ -3,10 +3,18 @@ open Domain
 let err_empty_input = "input is empty"
 
 let rec count_accessible_rolls matrix =
-  let count_paper lst = List.length @@ List.filter (fun c -> c <> ".") lst in
-  let accessible_rolls_of_paper = ref 0 in
-  count_accessible_rolls_aux matrix count_paper accessible_rolls_of_paper ;
-  !accessible_rolls_of_paper
+  let count_paper lst = List.length @@ List.filter (fun c -> c = "@") lst in
+  let accessible_rolls_of_paper = ref [] in
+  let no_change = ref false in
+  while not !no_change do
+    let accessible_rolls_of_paper' = !accessible_rolls_of_paper in
+    count_accessible_rolls_aux matrix count_paper accessible_rolls_of_paper ;
+    if
+      List.length accessible_rolls_of_paper'
+      = List.length !accessible_rolls_of_paper
+    then no_change := true
+  done ;
+  List.length !accessible_rolls_of_paper
 
 and count_accessible_rolls_aux matrix count_paper accessible_rolls_of_paper =
   for y = 0 to Array.length matrix - 1 do
@@ -15,16 +23,19 @@ and count_accessible_rolls_aux matrix count_paper accessible_rolls_of_paper =
       else
         let neighbour_coords = Matrix.M.get_valid_neighbours matrix x y in
         let neighbours =
-          List.map (fun (x', y') -> Matrix.M.get matrix x' y') neighbour_coords
+          List.map (fun (nx, ny) -> Matrix.M.get matrix nx ny) neighbour_coords
         in
         let paper_count = count_paper neighbours in
         let is_accessible = paper_count < 4 in
         if is_accessible then
-          accessible_rolls_of_paper := !accessible_rolls_of_paper + 1 ;
+          accessible_rolls_of_paper := (x, y) :: !accessible_rolls_of_paper ;
         print_iteration_debug_msg x y neighbour_coords neighbours paper_count
           is_accessible
     done
-  done
+  done ;
+  List.iter
+    (fun (x', y') -> Matrix.M.set matrix x' y' ".")
+    !accessible_rolls_of_paper
 
 and print_iteration_debug_msg x y neighbour_coords neighbours paper_count
     is_accessible =
