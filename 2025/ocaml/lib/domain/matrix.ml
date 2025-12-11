@@ -6,7 +6,12 @@ module M : sig
       where each element in the array is initialized to [initial]. *)
 
   val of_list : 'a list list -> 'a t
-  (** [of_list lst] is a 2D array where every element in the list is an element. *)
+  (** [of_list lst] is a 2D array where every element in the array is an
+      element corresponds to an element of the [lst]. *)
+
+  val to_list : 'a t -> 'a list list
+  (** [to_list matrix] is a 2D list where every element in the list is an
+      element corresponds to an element of the [matrix]. *)
 
   val of_string : string -> string t
   (** [of_string str] is a 2D array where every character is an element. *)
@@ -33,6 +38,8 @@ end = struct
   let empty cols rows initial = Array.make_matrix cols rows initial
 
   let of_list lst = Array.of_list @@ List.map Array.of_list lst
+
+  let to_list matrix = Array.to_list @@ Array.map Array.to_list matrix
 
   let of_string str =
     let lines =
@@ -72,15 +79,19 @@ end = struct
       potential_neighbours
 
   let pp string_of_elt matrix =
-    Array.fold_left
-      (fun col_acc arr ->
-        let row =
-          Array.fold_left
-            (fun row_acc elt -> row_acc ^ string_of_elt elt)
-            "" arr
-        in
-        if col_acc = "" then row else col_acc ^ "\n" ^ row )
-      "" matrix
+    "["
+    ^ Array.fold_left
+        (fun col_acc arr ->
+          let row =
+            "["
+            ^ Array.fold_left
+                (fun row_acc elt -> row_acc ^ string_of_elt elt ^ "; ")
+                " " arr
+            ^ "]"
+          in
+          col_acc ^ "  " ^ row ^ "\n" )
+        "\n" matrix
+    ^ "]"
 end
 
 let%expect_test "matrix created from input is pretty-printed as the same matrix"
