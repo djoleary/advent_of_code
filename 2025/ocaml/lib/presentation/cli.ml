@@ -32,6 +32,10 @@ let run_day _ = function
       let filepath = "../_input/day_05.txt" in
       run_solver "D05P01" Application.D05p01.solve filepath ;
       0
+  | 6 ->
+      let filepath = "../_input/day_06.txt" in
+      run_solver "D06P01" Application.D06p01.solve filepath ;
+      0
   | _ ->
       failwith "day not implemented"
 
