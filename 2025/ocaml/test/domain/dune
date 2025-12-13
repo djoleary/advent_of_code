@@ -5,4 +5,6 @@
    test_d03p01)
  (libraries
    domain
-   alcotest))
+   alcotest
+   qcheck-core
+   qcheck-alcotest))
