@@ -51,6 +51,18 @@ tasks:
       - cmd: dune runtest --instrument-with bisect_ppx --force {{.CLI_ARGS}}
       - cmd: bisect-ppx-report html
 
+  test:suite:
+    desc: Run a singluar test suite, e.g. `task test:suite SUITE=test/domain/d01p01`
+    preconditions:
+      - command -v dune
+    deps:
+      - task: build
+    requires:
+      vars:
+        - SUITE
+    cmds:
+      - cmd: dune exec {{.SUITE}}.exe -- {{.CLI_ARGS}}
+
   build:
     desc: Builds the project
     preconditions:
