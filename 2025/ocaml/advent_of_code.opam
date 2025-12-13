@@ -6,7 +6,7 @@ description:
 maintainer: ["DJ O'Leary <dijitol@proton.me>"]
 authors: ["DJ O'Leary <dijitol@proton.me>"]
 license: "Unlicense"
-tags: ["project template"]
+tags: ["Advent of Code"]
 homepage: "https://github.com/djoleary/advent_of_code"
 doc: "https://github.com/djoleary/advent_of_code/2025/ocaml/docs/index.html"
 bug-reports: "https://github.com/djoleary/advent_of_code/issues"
