@@ -22,6 +22,7 @@ let run_day _ = function
   | 3 ->
       let filepath = "../_input/day_03.txt" in
       run_solver "D03P01" Application.D03p01.solve filepath ;
+      run_solver "D03P02" Application.D03p02.solve filepath ;
       0
   | 4 ->
       let filepath = "../_input/day_04.txt" in
