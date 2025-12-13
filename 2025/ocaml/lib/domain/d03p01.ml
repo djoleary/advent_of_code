@@ -46,7 +46,7 @@ end = struct
     | Some x, Some y ->
         int_of_string (Battery.to_string x ^ Battery.to_string y)
     | _ ->
-        failwith "this branch should be impossible"
+        failwith "highest_joltage_aux must result in two digits"
 
   and highest_joltage_aux acc = function
     | [] ->
