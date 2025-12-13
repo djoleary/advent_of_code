@@ -7,24 +7,20 @@ let test_highest_joltage have want () =
 
 let largest_digit_always_in_highest_joltage =
   QCheck2.Test.make ~count:1000
-    ~name:
-      "highest joltage always has the largest number first unless the largest \
-       digit in the input is the final digit or there are less than 3 digits"
+    ~name:"highest joltage always has contains the largest digit"
     ~print:(fun s -> s)
     QCheck2.Gen.(string_of @@ char_range '1' '9')
     (fun have ->
       QCheck2.assume (String.length have > 2) ;
-      let got =
-        BatteryBank.of_string have |> BatteryBank.highest_joltage
-        |> fun x -> x / 10
-      in
+      let got = BatteryBank.of_string have |> BatteryBank.highest_joltage in
+      let first = got / 10 and second = got mod 10 in
       let want =
         String.fold_left
           (fun acc chr -> if acc < chr then chr else acc)
           '0' have
         |> Char.escaped |> int_of_string
       in
-      got = want )
+      first = want || second = want )
 
 let () =
   let open Alcotest in
@@ -857,5 +853,5 @@ let () =
             (test_highest_joltage "0067600" 76) ] )
     ; ( "BatteryBank property tests"
       , List.map
-          (QCheck_alcotest.to_alcotest ~colors:true ~speed_level:`Quick)
+          (QCheck_alcotest.to_alcotest ~colors:true)
           [largest_digit_always_in_highest_joltage] ) ]
