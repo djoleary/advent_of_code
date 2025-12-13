@@ -28,6 +28,9 @@ module BatteryBank : sig
   type t
 
   val highest_joltage : t -> int
+  (** [highest_joltage bb] is an integer created from the two highest
+      digits in [bb].
+      Raises: [Assert_failure] if [bb] is empty. *)
 
   val of_string : string -> t
 
@@ -40,44 +43,56 @@ end = struct
   type t = Battery.t list
 
   let rec highest_joltage bb =
+    assert (List.length bb > 0) ;
     match highest_joltage_aux (None, None) bb with
     | None, None ->
         0
     | Some x, Some y ->
         int_of_string (Battery.to_string x ^ Battery.to_string y)
     | _ ->
-        failwith "highest_joltage_aux must result in two digits"
+        failwith "highest_joltage must be two digits"
 
   and highest_joltage_aux acc = function
     | [] ->
         acc
+    | [elt] -> (
+      match acc with
+      | None, None ->
+          (Some (Battery.of_int 0), Some elt)
+      | Some first, None ->
+          (Some first, Some elt)
+      | None, Some second ->
+          (Some second, Some elt)
+      | Some first, Some second ->
+          if elt > second then (Some first, Some elt)
+          else (Some first, Some second) )
     | h :: t ->
         highest_joltage_aux
           ( match acc with
           | None, None ->
               (Some h, None)
           | Some first, None ->
-              (Some first, Some h)
+              let second = Battery.of_int 0 in
+              swap_if_higher first second h
           | Some first, Some second ->
-              swap_if_higher first second h (List.length t = 0)
+              swap_if_higher first second h
           | _ ->
               failwith "this branch should be impossible" )
           t
 
-  and swap_if_higher first second considering is_end =
+  and swap_if_higher first second considering =
+    assert (first >= second) ;
     let c_gt_f = Battery.compare considering first = 1 in
     let c_gt_s = Battery.compare considering second = 1 in
-    let f_gt_s = Battery.compare first second = 1 in
-    if c_gt_f && c_gt_s && f_gt_s then
-      if is_end then (Some first, Some considering) else (Some considering, None)
-    else if (not c_gt_f) && c_gt_s && f_gt_s then (Some first, Some considering)
-    else if c_gt_f && c_gt_s && not f_gt_s then
-      if is_end then (Some second, Some considering)
-      else (Some considering, None)
-    else if (not c_gt_f) && (not c_gt_s) && f_gt_s then (Some first, Some second)
-    else if c_gt_f && (not c_gt_s) && not f_gt_s then
-      (Some second, Some considering)
-    else (Some first, Some second)
+    match (c_gt_f, c_gt_s) with
+    | true, true ->
+        (Some considering, None)
+    | false, true ->
+        (Some first, Some considering)
+    | true, false ->
+        failwith "[second] should never be greater than [first]"
+    | false, false ->
+        (Some first, Some second)
 
   let of_string s =
     s |> String.to_seq
