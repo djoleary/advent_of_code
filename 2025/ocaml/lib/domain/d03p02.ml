@@ -42,12 +42,14 @@ module BatteryBank : sig
 end = struct
   type t = Battery.t list
 
+  type highest = {one: Battery.t option; two: Battery.t option}
+
   let rec highest_joltage bb =
     assert (List.length bb > 0) ;
-    match highest_joltage_aux (None, None) bb with
-    | None, None ->
+    match highest_joltage_aux {one= None; two= None} bb with
+    | {one= None; two= None} ->
         0
-    | Some x, Some y ->
+    | {one= Some x; two= Some y} ->
         int_of_string (Battery.to_string x ^ Battery.to_string y)
     | _ ->
         failwith "highest_joltage must be two digits"
@@ -57,24 +59,24 @@ end = struct
         acc
     | [elt] -> (
       match acc with
-      | None, None ->
-          (Some (Battery.of_int 0), Some elt)
-      | Some first, None ->
-          (Some first, Some elt)
-      | None, Some second ->
-          (Some second, Some elt)
-      | Some first, Some second ->
-          if elt > second then (Some first, Some elt)
-          else (Some first, Some second) )
+      | {one= None; two= None} ->
+          {one= Some (Battery.of_int 0); two= Some elt}
+      | {one= Some first; two= None} ->
+          {one= Some first; two= Some elt}
+      | {one= None; two= Some second} ->
+          {one= Some second; two= Some elt}
+      | {one= Some first; two= Some second} ->
+          if elt > second then {one= Some first; two= Some elt}
+          else {one= Some first; two= Some second} )
     | h :: t ->
         highest_joltage_aux
           ( match acc with
-          | None, None ->
-              (Some h, None)
-          | Some first, None ->
+          | {one= None; two= None} ->
+              {one= Some h; two= None}
+          | {one= Some first; two= None} ->
               let second = Battery.of_int 0 in
               swap_if_higher first second h
-          | Some first, Some second ->
+          | {one= Some first; two= Some second} ->
               swap_if_higher first second h
           | _ ->
               failwith "this branch should be impossible" )
@@ -86,13 +88,13 @@ end = struct
     let c_gt_s = Battery.compare considering second = 1 in
     match (c_gt_f, c_gt_s) with
     | true, true ->
-        (Some considering, None)
+        {one= Some considering; two= None}
     | false, true ->
-        (Some first, Some considering)
+        {one= Some first; two= Some considering}
     | true, false ->
         failwith "[second] should never be greater than [first]"
     | false, false ->
-        (Some first, Some second)
+        {one= Some first; two= Some second}
 
   let of_string s =
     s |> String.to_seq
